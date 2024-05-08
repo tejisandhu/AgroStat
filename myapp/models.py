@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class person(models.Model):
      F_name=models.CharField(max_length=35)
@@ -74,8 +75,10 @@ class Agriculture_Farmer_Scheme(models.Model):
 
 class Latest_Technology(models.Model):
      name=models.CharField(max_length=50) 
-     photo=models.ImageField(upload_to="Technology",blank=True) 
      description=models.TextField()
+     photo=models.ImageField(upload_to="Technology",blank=True) 
+     pdf=models.FileField(upload_to="Technology",blank=True)
+     
 
 
 
@@ -111,7 +114,7 @@ class register(models.Model):
      address=models.TextField(blank=True, null=True)
      gender=models.CharField(max_length=1,blank=True, null=True)
      age=models.CharField(max_length=15,blank=True, null=True)
-     profile_picture=models.ImageField(upload_to="ProfilePictures",blank=True)
+     profile_picture=models.ImageField(upload_to="ProfilePictures",default="DP_2.jpg",blank=True)
      
 class ChatMessage(models.Model):
      user = models.CharField(max_length=100)

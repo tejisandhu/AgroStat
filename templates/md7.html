@@ -8,11 +8,12 @@
     <title>Fertilizer Use Analysis</title>
   </head>
   <body>
-    <section class="container" style="padding-right: 30%">
+    <section class="container" style="padding-right: 15%">
       <form method="POST" action="" class="" enctype="multipart/form-data">
         {% csrf_token %}
         <h1 class="mt-5 display-3">Fertilizer Use Analysis</h1>
         <br />
+        <p style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In this interactive exploration, you have the power to choose the number of top countries you want to analyze. Select N and specify the desired year range to unlock a wealth of data and visualizations showcasing nitrogen usage trends among the selected nations.</p>
 
         <select name="year" class="form-select form-select-lg mb-4">
           <option selected>Select a year for top countries</option>

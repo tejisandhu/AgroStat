@@ -28,26 +28,18 @@
   </head>
   <body>
     <div class="text-end m-3">
-      <img class="text-end m-3" />Welcome,<strong> {{user.name}}</strong>
+
+      <img class="text-end " />Welcome,<strong> {{user.name}}</strong>
       <a href="{% url 'userprofile_s' %}" required>
         <img
           src="{{user.profile_picture.url}}"
           style="height: 70px; width: 70px; border-radius: 50%"
       /></a>  
     </div>
-    <a
-      class="weatherwidget-io"
-      href="https://forecast7.com/en/31d6374d87/amritsar/"
-      data-label_1="AMRITSAR"
-      data-label_2="WEATHER"
-      data-theme="original"
-      style="margin-top: 20px; width: 90%"
-      >AMRITSAR WEATHER</a
-    >
-
+    
     <section class="vh-50" style="padding-right: 0%">
       <section class="container"> 
-        <h1 class="mt-5 display-3">User Profile</h1>
+        <h1 class="mt-5 display-3" >User Profile</h1>
         <div class="row ">
           <div class="col-md-4">
             
@@ -55,11 +47,11 @@
             {% if msg ==  'success' %}
               <img src="{{user.profile_picture.url}}" height="120px" width="120px" style="border-radius: 50%; margin-top: 20px;" >
               <label for="pimage" style="cursor: pointer;">
-              <img src="{% static 'images\edit.png' %}" style="height: 30px; width: 30px; position: absolute; top: 66%; left: 35%;"></img></label>
+              <img src="{% static 'images\edit.png' %}" style="height: 30px; width: 30px; position: absolute; top: 48%; left: 35%;"></img></label>
             {% elif user.profile_picture %}
             <img src="{{user.profile_picture.url}}" height="120px" width="120px" style="border-radius: 50%; margin-top: 20px;">
             <label for="pimage" style="cursor: pointer;">
-              <img src="{% static 'images\edit.png' %}" style="height: 30px; width: 30px; position: absolute; top: 66%; left: 35%;"></img></label>
+              <img src="{% static 'images\edit.png' %}" style="height: 30px; width: 30px; position: absolute; top: 48%; left: 35%;"></img></label>
             {% else %}
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" height="120px" width="120px" style="border-radius: 50%; margin-top: 20px;"
@@ -117,29 +109,85 @@
               />
             </div>
           </div>
+          {% if user.contact %}
+          <div class="row align-items-center">
+            <div class="col-2 mb-3">
+              <label for="inputPassword6" class="col-form-label fs-4 c1"
+                >Phone</label
+              >
+            </div>
+            <div class="col-7 mb-3">
+              <input
+                class="form-control"
+                type="text"
+                value="{{user.contact}}"
+                aria-label="Disabled input example"
+                disabled
+                readonly
+              />
+            </div>
+          </div>
+          {% endif %}
+          {% if user.age %}
+          <div class="row align-items-center">
+            <div class="col-2 mb-3">
+              <label for="inputPassword6" class="col-form-label fs-4 c1"
+                >DoB</label
+              >
+            </div>
+            <div class="col-7 mb-3">
+              <input
+                class="form-control"
+                type="text"
+                value="{{user.age}}"
+                aria-label="Disabled input example"
+                disabled
+                readonly
+              />
+            </div>
+          </div>
+          {% endif %}
+
         </div>
           
         </form>
+        
+    </div>
       </section>
-    </section>
-
+    
+    <a
+        class="weatherwidget-io"
+        href="https://forecast7.com/en/31d6374d87/amritsar/"
+        data-label_1="AMRITSAR"
+        data-label_2="WEATHER"
+        data-font="Courier New"
+        data-icons="Climacons Animated"
+        data-days="5"
+        data-theme="orange"
+        data-basecolor="#ffcc"
+        data-cloudfill="#ffcc00"
+        style="margin-right: 20%; margin-bottom: 25px; width: 90%;margin-top: 50px;"
+        >AMRITSAR WEATHER</a
+      >
+      <script>
+        !(function (d, s, id) {
+          var js,
+            fjs = d.getElementsByTagName(s)[0];
+          if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://weatherwidget.io/js/widget.min.js";
+            fjs.parentNode.insertBefore(js, fjs);
+          }
+        })(document, "script", "weatherwidget-io-js");
+      </script>
+</section>
     {% if msg == 1 %}
     <script type="text/javascript">
       alert("success");
     </script>
     {% endif %}
-    <script>
-      !(function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "https://weatherwidget.io/js/widget.min.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        }
-      })(document, "script", "weatherwidget-io-js");
-    </script>
+    
   </body>
 </html>
 {% endblock %}

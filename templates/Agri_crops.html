@@ -6,7 +6,7 @@
       <img
         src="https://ninetheme.com/themes/agro/wp-content/uploads/2019/02/img_2.jpg"
         class="d-block w-100"
-        style="height: 100vh; filter: brightness(70%)"
+        style="height: 115vh; filter: brightness(70%)"
         alt="..."
       />
       <div
@@ -18,16 +18,18 @@
           margin-left: -10%;
         "
       >
-         <h1
-        class="display-2 fw-bolder mb-4"
-        style="
-          font-size: 80px;
-          text-shadow: 2px 2px 5px black;
-          color: whitesmoke;
-          letter-spacing: 3px;
-          font-weight: bold;
-        "
-      >Types of Crops</h1>
+        <h1
+          class="display-2 fw-bolder mb-4"
+          style="
+            font-size: 80px;
+            text-shadow: 2px 2px 5px black;
+            color: whitesmoke;
+            letter-spacing: 3px;
+            font-weight: bold;
+          "
+        >
+          Types of Crops
+        </h1>
 
         <p class="mt-2 mb-2">
           Agriculture crops are of different types. Those types are showed in
@@ -49,7 +51,11 @@
   <div class="row">
     {% for i in data %}
     <div class="col-4 p-5">
-      <div class="card text-center border shadow" style="width: 18rem" data-aos="flip-up">
+      <div
+        class="card text-center border shadow"
+        style="width: 18rem"
+        data-aos="flip-up"
+      >
         <img
           src="{{i.image.url}}"
           class="card-img-top"

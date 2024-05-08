@@ -1578,10 +1578,60 @@ def crops_production_prediction(request):
 def footer(request):
      if request.method == "POST":
           e=request.POST.get("newsletteremail")
-          x=newsletter()
-          x.email=e
-          x.save()
-          return JsonResponse({"message":"Thank you for subscribling"})
+          if newsletter.objects.filter(email=e).exists():
+               subject="Welcome Back to AGROSTAT!"
+               message='''Hi ,
+Great to see you back! Your continued support fuels our passion for empowering farmers with data-driven agriculture.
+We're constantly enhancing AGROSTAT:
+          # New features: The dashboard gets better, offering more powerful analysis and prediction tools.
+          # Fresh insights: Stay ahead of the curve with our expert-authored blog posts on agricultural intelligence.
+          # Exclusive events: Gain access to upcoming webinars and workshops with renowned agricultural specialists.
+Maximize your experience:
+          # Explore our website: [Your Website URL]
+          # Read our blog for insights: [Link to a relevant blog post, if available]
+          # Connect with us: Your feedback matters!
+We're committed to your success. Stay tuned for exciting updates!
+Sincerely,
+The AGROSTAT Team
+'''
+               email_from=settings.EMAIL_HOST_USER
+               recipient_list=[e]  
+               send_mail(subject,message,email_from,recipient_list)
+                 
+               return JsonResponse({"message":"You are already a subscriber"})
+          
+          else:
+          
+               x=newsletter()
+               x.email=e
+               x.save()
+               subject="Welcome to AGROSTAT - Empowering Farmers with Knowledge and Technology!"
+               message=f'''Hi,
+     Welcome to the AGROSTAT community! We're thrilled to have you join us on your journey to harnessing the power of data and technology for informed agricultural decision-making.
+     AGROSTAT is a website built by passionate individuals like you, aiming to empower farmers with knowledge and technology. 
+     Through our innovative agriculture intelligence dashboard, we strive to:
+               # Analyze agricultural data: Gain insights into crop production, Nutrient nitrogen use,agriculturalist trends and more.
+               # Make data-driven predictions: Anticipate potential issues and optimize your farming strategies for improved yields.
+               # Stay informed: Access valuable resources and news articles to stay ahead of the curve in the agricultural sector.
+     As a subscriber, you'll receive regular updates about:
+               # New features and functionalities on the AGROSTAT platform.
+               # Informative blog posts and articles on agriculture intelligence and technology trends.
+               # Exclusive access to webinars and workshops hosted by agricultural experts.
+     We're excited to embark on this agricultural intelligence journey with you!
+     Here are some ways to get started:
+               # Visit our website
+               # Explore the AGROSTAT dashboard 
+               # Read our latest blog post
+     Feel free to reach out to us if you have any questions or suggestions. We're always happy to hear from our subscribers!
+     Sincerely,
+     The AGROSTAT Team
+     P.S. Don't forget to follow us on social media for even more updates and engagement!
+     '''
+               email_from=settings.EMAIL_HOST_USER
+               recipient_list=[e]  
+               send_mail(subject,message,email_from,recipient_list)
+                         
+               return JsonResponse({"message":"Thank you for subscribling"})
      return render (request,'footer.html')
 
 def contactus(request):
@@ -1706,9 +1756,9 @@ def register_otp(request):
                x.password=p
                x.save()
                
-               return redirect('/login',{ 'msg' : 2 })
+               return redirect('/login',{ 'msg' : 3 })
           else:
-               return render(request,'register_otp.html',{ 'msg' : 4 })
+               return render(request,'register_otp.html',{ 'msg' : 4,'name':n,'email':e,'password':p,'otp':j8})
      else:
           return render(request,'register_otp.html')
                
@@ -1747,7 +1797,7 @@ def Agri_crops(request):
 def crop_detail(request,name):
      
      x=agri_crops_details.objects.filter(crop_identity=name)
-     return  render(request, 'Agri_crops_detail1.html',{'data':x})
+     return  render(request, 'Agri_crops_detail1.html',{'data':x,'name':name})
 
 def crop_detail2(request,name):
      
@@ -2637,7 +2687,7 @@ def sentence_similarity(sentence1, sentence2):
     return similarity_score
 def get_bot_response1(user_message):
      import google.generativeai as genai
-     genai.configure(api_key="AIzaSyAjGx9FquWlmBjM1ojNzwJrfRqovNfEAH8")
+     genai.configure(api_key="AIzaSyC619wTw72mLADW0vbxzrUdjApVWLiydKc")
      # Set up the model
      generation_config = {
      "temperature": 0.9,

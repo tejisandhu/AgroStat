@@ -47,6 +47,7 @@
               type="text"
               value="{{user.email}}"
               name="em"
+              readonly
             />
           </div>
         </div>
@@ -96,7 +97,7 @@
                 name="gn"
                 id="inlineRadio1"
                 value="M"
-                checked="{{user.gender}}"
+                {% if user.gender == "M" %}checked{% endif %}
               />
               <label
                 class="form-check-label fs-6"
@@ -112,7 +113,7 @@
                 name="gn"
                 id="inlineRadio2"
                 value="F"
-                checked="{{user.gender}}"
+                {% if user.gender == "F" %}checked{% endif %}
               />
               <label class="form-check-label fs-6" for="inlineRadio2"
                 >Girl</label

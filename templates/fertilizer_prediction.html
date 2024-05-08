@@ -7,11 +7,12 @@
     <title>Fertilizer Prediction</title>
   </head>
   <body>
-    <section class="container" style="padding-right: 30%">
+    <section class="container" style="padding-right: 15%">
       <form method="POST" action="" class="" enctype="multipart/form-data">
         {% csrf_token %}
         <h1 class="mt-5 display-3">Fertilizer Prediction</h1>
         <br />
+        <p style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In this cutting-edge analysis, you'll have the opportunity to select [Country] and specify the number of years for which you want to predict nitrogen usage. Our advanced predictive models harness historical data, climatic factors, and agricultural trends to generate accurate forecasts tailored to your needs. Whether you're planning crop rotations, designing fertilizer strategies, or evaluating environmental impact, our tool provides valuable insights to guide your decisions.</p>
 
         <select name="country" class="form-select form-select-lg fs-5 mb-4">
           <option selected class="mb-5">
