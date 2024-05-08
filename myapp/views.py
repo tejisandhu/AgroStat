@@ -19,6 +19,7 @@ from myapp.models import register
 from myapp.models import agri_crops_details
 from myapp.models import disease_solution
 from myapp.models import newsletter
+from myapp.models import dealers
 import numpy as np
 import country_converter as cc
 import warnings
@@ -1810,6 +1811,9 @@ def Agri_farmer_scheme(request):
 def Agri_indian_uni(request):
      x=Indian_Agriculture_University.objects.all()
      return  render(request, 'Agri_indian_uni.html',{'data':x})
+def Agri_dealers(request):
+     x=dealers.objects.all()
+     return  render(request, 'Agri_Dealers.html',{'data':x})
 def Agri_latest_technology(request):
      x=Latest_Technology.objects.all()
      return  render(request, 'Agri_latest_technology.html',{'data':x})

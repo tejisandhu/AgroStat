@@ -41,6 +41,7 @@ urlpatterns = [
     path('Agri_news',views.Agri_news,name="Agri_news"),
     path('Agri_uni',views.Agri_uni,name="Agri_uni"),
     path('Agri_videos',views.Agri_videos,name="Agri_videos"),
+    path('Agri_dealers',views.Agri_dealers,name="Agri_dealers"),
     path('review',views.review,name="review"),
     path('sidebar',views.sidebar,name="sidebar"),
     path('sidebar11',views.sidebar11,name="sidebar11"),
@@ -117,24 +118,7 @@ urlpatterns = [
     path('crops_production_prediction/',views.crops_production_prediction,name="crops_production_prediction"),
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
+  
     
 ]
 

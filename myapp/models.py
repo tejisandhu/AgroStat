@@ -125,6 +125,19 @@ class ChatMessage(models.Model):
 class newsletter(models.Model):
      email=models.EmailField()
      
+class dealers(models.Model):
+     name=models.CharField(max_length=100)
+     address=models.TextField(blank=True, null=True)
+     phone=models.CharField(max_length=100)
+     website=models.URLField(null=True)   
+     image=models.ImageField(upload_to="Dealers",blank=True)
+      
+     
+     
+     
+          
+
+
 #model name and view page name should not be same
 # whenever make a change in the models always need to run
 #also register the model to the admin.py

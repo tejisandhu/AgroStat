@@ -17,6 +17,8 @@ from myapp.models import disease_solution
 from myapp.models import support
 from myapp.models import ChatMessage
 from myapp.models import newsletter
+from myapp.models import dealers
+
 
 
 
@@ -39,6 +41,7 @@ admin.site.register(disease_solution)
 admin.site.register(support)
 admin.site.register(ChatMessage)
 admin.site.register(newsletter)
+admin.site.register(dealers)
 
 
 
