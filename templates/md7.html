@@ -5,15 +5,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fertilizer Use Analysis</title>
+    <title>Nitrogen Use Analysis</title>
   </head>
   <body>
     <section class="container" style="padding-right: 15%">
-      <form method="POST" action="" class="" enctype="multipart/form-data">
+      <form method="POST" action class enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="mt-5 display-3">Fertilizer Use Analysis</h1>
+        <h1 class="mt-5 display-3">Nitrogen Use Analysis</h1>
         <br />
-        <p style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In this interactive exploration, you have the power to choose the number of top countries you want to analyze. Select N and specify the desired year range to unlock a wealth of data and visualizations showcasing nitrogen usage trends among the selected nations.</p>
+        <p
+          style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In
+          this interactive exploration, you have the power to choose the number
+          of top countries you want to analyze. Select N and specify the desired
+          year range to unlock a wealth of data and visualizations showcasing
+          nitrogen usage trends among the selected nations.</p>
 
         <select name="year" class="form-select form-select-lg mb-4">
           <option selected>Select a year for top countries</option>
@@ -94,8 +99,7 @@
         </select>
         <button
           type="submit"
-          class="btn btn-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-auto"
-        >
+          class="btn btn-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-auto">
           Enter
         </button>
       </form>

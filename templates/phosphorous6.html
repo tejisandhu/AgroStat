@@ -5,21 +5,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nitrogen Use Analysis</title>
+    <title>Fertilizer Use Analysis</title>
   </head>
   <body>
     <section class="container" style="padding-right: 15%">
       <form method="POST" action class enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="mt-5 display-3">Nitrogen Use Analysis</h1>
+        <h1 class="mt-5 display-3">Phosphorous Use Analysis</h1>
         <br />
         <p
-          style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In
-          this interactive exploration, we invite you to select three countries
-          of interest and specify the desired year range. By doing so, you'll
-          unlock a wealth of data and visualizations that illustrate how
-          nitrogen consumption has evolved over time in these selected
-          regions.</p>
+          style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">Dig
+          deeper into phosphorus use! Compare fertilizer application (kg/ha)
+          across 3 countries over time. Select your countries & years - uncover
+          trends and see who's top dog!</p>
         <div class="row align-items-center mb-3">
           <div class="col-md-4">
             <select name="country1" class="form-select form-select-lg mb-4">

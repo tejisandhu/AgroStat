@@ -358,7 +358,6 @@ def f7(request):
           column=data["Entity"].drop_duplicates().tolist()
           column1=data["Year"].drop_duplicates().tolist()
           return render(request,"md7.html",{"data":column,"year":column1})
-
 def f8(request):
      if not request.session.has_key('email'):
           return redirect('/login')
@@ -373,6 +372,675 @@ def fertilizer_link(request):
           return redirect('/login')
      user=register.objects.get(email=request.session['email'])     
      return render(request,'fertilizers_link.html',{'user':user})
+
+def phosphorous1(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          country=request.POST.get("country")
+          #filtering the dataset
+          df1=df[df["Entity"]==country]
+          
+          
+          fig = go.Figure()   
+          fig.add_traces(go.Scatter(x=df1["Year"],y=df1["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines",name=country,
+                                   line=dict(color="#001f3f",width=2),
+                            fill='tozeroy',  
+    
+                                   
+                                   ))
+          
+          
+          fig.update_layout(xaxis_title="Year", yaxis_title="Phosphate used kg/ha", title=f"Phosphate fertilizer use per hectare of cropland by {country}", xaxis_type="category",plot_bgcolor= "white",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))  
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          return render(request,"phosphorous1.html",{"data":column})
+def phosphorous2(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          year=int(request.POST.get("year"))
+          print(year)
+          #filtering the dataset
+          df1=df[df["Year"]==year]
+          #print(df1)
+          
+          
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          df1 = df1[~df1['Entity'].str.contains(word_to_exclude)]
+
+          
+          
+          fig=px.bar(df1,y="Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare",x="Entity"
+          #labels={"Nutrient nitrogen N (total) | 00003102 || Use per area of cropland | 005159 || kilograms per hectare":"Nitrogen kilograms per hectar"},
+          )
+          fig.update_layout(xaxis_title="Country", yaxis_title="Phosphate used kg/ha", title=f"Phosphate fertilizer use per hectare of cropland, {year}", xaxis_type="category",plot_bgcolor= "white",
+          height=600,
+          width=1200,
+          paper_bgcolor="lightsteelblue",title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=False, showline=True, linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+          fig.update_traces(
+               hovertemplate="%{y} kg/ha<br>Country: %{x}",marker_color="black"
+          )
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          column=data["Year"].drop_duplicates().tolist()
+          return render(request,"phosphorous2.html",{"data":column})
+def phosphorous3(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          country=request.POST.get("country")
+          print(country)
+          startyear=int(request.POST.get("startyear"))
+          print(startyear)
+          endyear=int(request.POST.get("endyear"))
+          print(endyear)
+         
+          #filtering the dataset
+          df1=df[df['Entity'] == country]
+          print(df1)
+          
+          df1=df1[(df1["Year"]>=startyear) & (df1["Year"]<=endyear)]
+          
+          print(df1)
+          
+          fig=px.scatter(df1,y="Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare",x="Year",size="Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare",size_max=40,color="Year"
+          )
+          fig.update_layout(xaxis_title="Year", yaxis_title="Phosphate used kg/ha", title=f"Phosphate fertilizer use per hectare of cropland from {startyear} to {endyear}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+         
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          
+          column=data["Entity"].drop_duplicates().tolist()
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"phosphorous3.html",{"data":column,"year":column1})
+def phosphorous4(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          
+          
+          
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          df1=df[df['Entity']==country1]
+          df2=df[df['Entity']==country2]
+         
+          
+          fig = go.Figure()
+
+          # Create bar traces for each country
+          fig.add_trace(go.Bar(
+          x=df1["Year"],  # X-axis data (categories)
+          y=df1["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],  # Y-axis data (values)
+          name=country1,
+          marker=dict(color="#001f3f"),  # Bar color
+          ))
+
+          fig.add_trace(go.Bar(
+          x=df2["Year"],
+          y=df2["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],
+          name=country2,
+          marker=dict(color="#0041a4"),
+          ))
+
+          # Update layout for a bar chart
+          fig.update_layout(
+          barmode='group',
+          xaxis_title="Year",
+          yaxis_title="Phosphate used kg/ha",
+          title=f"Phosphate fertilizer use per hectare of cropland by {country1} and {country2}",
+          plot_bgcolor="lightsteelblue",
+          height=600,
+          width=1200,
+          title_font_size=25,
+          font=dict(family="Verdana", size=18, color="black"),
+          title_x=0.5,
+          xaxis_title_font_size=25,
+          yaxis_title_font_size=25,
+          xaxis=dict(showgrid=True, showline=True, gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"),
+          xaxis_type="category",  # Set x-axis for categorical data (Year)
+          )
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          
+          column=data["Entity"].drop_duplicates().tolist()
+          
+
+          
+          return render(request,"phosphorous4.html",{"data":column})
+def phosphorous5(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          country3=request.POST.get("country3")
+          df1=df[df['Entity']==country1]
+          df2=df[df['Entity']==country2]
+          df3=df[df['Entity']==country3]
+          
+          fig = go.Figure()
+          fig.add_traces(go.Scatter(x=df1["Year"],y=df1["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines",name=country1,
+                                   line=dict(color="#001f3f",width=3),
+                                   ))
+          fig.add_traces(go.Scatter(x=df2["Year"],y=df2["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines+markers",name=country2,
+                                   line=dict(color="#0041a4",width=3),marker=dict(symbol="square")
+                                   ))
+          fig.add_traces(go.Scatter(x=df3["Year"],y=df3["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines+markers",name=country3,
+                                   line=dict(color="#f8b28b",width=3),marker=dict(symbol="circle")
+                                   ))
+          fig.update_layout(xaxis_title="Year", yaxis_title="Phosphate used kg/ha", title=f"Phosphate fertilizer use per hectare of cropland by {country1}, {country2} and {country3}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          return render(request,"phosphorous5.html",{"data":column})
+def phosphorous6(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          country3=request.POST.get("country3")
+          startyear=int(request.POST.get("startyear"))
+          endyear=int(request.POST.get("endyear"))
+          df1=df[df['Entity']==country1]
+          df1=df1[(df1["Year"]>=startyear) & (df1["Year"]<=endyear)]
+          df2=df[df['Entity']==country2]
+          df2=df2[(df2["Year"]>=startyear) & (df2["Year"]<=endyear)]
+          df3=df[df['Entity']==country3]
+          df3=df3[(df3["Year"]>=startyear) & (df3["Year"]<=endyear)]
+         
+          
+          fig = go.Figure()
+          fig.add_traces(go.Bar(x=df1["Year"],y=df1["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],
+          name=country1,
+          marker=dict(color="#001f3f")
+                                   ))
+          fig.add_traces(go.Bar(x=df2["Year"],y=df2["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],name=country2,
+          marker=dict(color="#0041a4")
+                                    
+                                   ))
+          fig.add_traces(go.Bar(x=df3["Year"],y=df3["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"],name=country3,
+          marker=dict(color="#698b90")
+                                    
+                                   ))
+          fig.update_layout(xaxis_title="Year", yaxis_title="Phosphate used kg/ha", title=f"Phosphate fertilizer use per hectare of cropland by {country1}, {country2} and {country3}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"phosphorous6.html",{"data":column,"year":column1})
+def phosphorous7(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          year=int(request.POST.get("year"))
+          df1=df[df['Year']==year]
+          df1=df1.dropna()
+          df1=df1.sort_values(by="Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare",ascending=False)
+          n=int(request.POST.get("n"))
+          dfmax=df1.head(n)
+          
+          fig = go.Figure()
+          fig.add_trace(go.Pie(labels=dfmax["Entity"],values=dfmax["Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare"], textinfo='percent',hole=.3
+                               
+                                   ))
+          fig.update_layout(
+                   title=f"Phosphate fertilizer use per hectare of cropland by top {n} countries in {year}", plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          paper_bgcolor="lightsteelblue",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,)    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          column=data["Entity"].drop_duplicates().tolist()
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"phosphorous7.html",{"data":column,"year":column1})
+def phosphorous8(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     a=mark_safe('<iframe src="https://ourworldindata.org/explorers/fertilizers?time=2021&facet=none&pickerSort=asc&hideControls=true&Input=Synthetic+fertilizer&Nutrient=Phosphorous&Metric=Applied+%28per+hectare%29&Share+of+world+total=false&country=Eastern+Asia~OWID_WRL&tab=map" loading="lazy" style="width: 110%; height: 630px; border: 0px none; margin-left: -140px;overflow: hidden;"></iframe>')
+     
+     
+          
+     return render(request,"fertilizer_result_worldmap.html",{'map':a})
+
+
+def phosphorous_link(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     user=register.objects.get(email=request.session['email'])     
+     return render(request,'phosphorous_link.html',{'user':user})
+
+
+def potassium1(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          country=request.POST.get("country")
+          #filtering the dataset
+          df1=df[df["Entity"]==country]
+          
+          
+          fig = go.Figure()   
+          fig.add_traces(go.Scatter(x=df1["Year"],y=df1["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines",name=country,
+                                   line=dict(color="#001f3f",width=2),
+                            fill='tozeroy',  
+    
+                                   
+                                   ))
+          
+          
+          fig.update_layout(xaxis_title="Year", yaxis_title="Potash used kg/ha", title=f"Potash fertilizer use per hectare of cropland by {country}", xaxis_type="category",plot_bgcolor= "white",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))  
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          return render(request,"potassium1.html",{"data":column})
+def potassium2(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          year=int(request.POST.get("year"))
+          print(year)
+          #filtering the dataset
+          df1=df[df["Year"]==year]
+          #print(df1)
+          
+          
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          df1 = df1[~df1['Entity'].str.contains(word_to_exclude)]
+
+          
+          
+          fig=px.bar(df1,y="Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare",x="Entity"
+          #labels={"Nutrient nitrogen N (total) | 00003102 || Use per area of cropland | 005159 || kilograms per hectare":"Nitrogen kilograms per hectar"},
+          )
+          fig.update_layout(xaxis_title="Country", yaxis_title="Potash used kg/ha", title=f"Potash fertilizer use per hectare of cropland, {year}", xaxis_type="category",plot_bgcolor= "white",
+          height=600,
+          width=1200,
+          paper_bgcolor="lightsteelblue",title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=False, showline=True, linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+          fig.update_traces(
+               hovertemplate="%{y} kg/ha<br>Country: %{x}",marker_color="black"
+          )
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          column=data["Year"].drop_duplicates().tolist()
+          return render(request,"potassium2.html",{"data":column})
+def potassium3(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          country=request.POST.get("country")
+          print(country)
+          startyear=int(request.POST.get("startyear"))
+          print(startyear)
+          endyear=int(request.POST.get("endyear"))
+          print(endyear)
+         
+          #filtering the dataset
+          df1=df[df['Entity'] == country]
+          print(df1)
+          
+          df1=df1[(df1["Year"]>=startyear) & (df1["Year"]<=endyear)]
+          
+          print(df1)
+          
+          fig=px.scatter(df1,y="Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare",x="Year",size="Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare",size_max=40,color="Year"
+          )
+          fig.update_layout(xaxis_title="Year", yaxis_title="Potash used kg/ha", title=f"Potash fertilizer use per hectare of cropland from {startyear} to {endyear}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+         
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+          
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          
+          column=data["Entity"].drop_duplicates().tolist()
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"potassium3.html",{"data":column,"year":column1})
+def potassium4(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          
+          
+          
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          df1=df[df['Entity']==country1]
+          df2=df[df['Entity']==country2]
+         
+          
+          fig = go.Figure()
+
+          # Create bar traces for each country
+          fig.add_trace(go.Bar(
+          x=df1["Year"],  # X-axis data (categories)
+          y=df1["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],  # Y-axis data (values)
+          name=country1,
+          marker=dict(color="#001f3f"),  # Bar color
+          ))
+
+          fig.add_trace(go.Bar(
+          x=df2["Year"],
+          y=df2["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],
+          name=country2,
+          marker=dict(color="#0041a4"),
+          ))
+
+          # Update layout for a bar chart
+          fig.update_layout(
+          barmode='group',
+          xaxis_title="Year",
+          yaxis_title="Potash used kg/ha",
+          title=f"Potash fertilizer use per hectare of cropland by {country1} and {country2}",
+          plot_bgcolor="lightsteelblue",
+          height=600,
+          width=1200,
+          title_font_size=25,
+          font=dict(family="Verdana", size=18, color="black"),
+          title_x=0.5,
+          xaxis_title_font_size=25,
+          yaxis_title_font_size=25,
+          xaxis=dict(showgrid=True, showline=True, gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"),
+          xaxis_type="category",  # Set x-axis for categorical data (Year)
+          )
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          
+          column=data["Entity"].drop_duplicates().tolist()
+          
+
+          
+          return render(request,"potassium4.html",{"data":column})
+def potassium5(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          country3=request.POST.get("country3")
+          df1=df[df['Entity']==country1]
+          df2=df[df['Entity']==country2]
+          df3=df[df['Entity']==country3]
+          
+          fig = go.Figure()
+          fig.add_traces(go.Scatter(x=df1["Year"],y=df1["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines",name=country1,
+                                   line=dict(color="#001f3f",width=3),
+                                   ))
+          fig.add_traces(go.Scatter(x=df2["Year"],y=df2["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines+markers",name=country2,
+                                   line=dict(color="#0041a4",width=3),marker=dict(symbol="square")
+                                   ))
+          fig.add_traces(go.Scatter(x=df3["Year"],y=df3["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],mode="lines+markers",name=country3,
+                                   line=dict(color="#f8b28b",width=3),marker=dict(symbol="circle")
+                                   ))
+          fig.update_layout(xaxis_title="Year", yaxis_title="Potash used kg/ha", title=f"Potash fertilizer use per hectare of cropland by {country1}, {country2} and {country3}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+
+# Filter rows that DON'T contain the word and assign the result back to the DataFrame
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          return render(request,"potassium5.html",{"data":column})
+def potassium6(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          country1=request.POST.get("country1")
+          country2=request.POST.get("country2")
+          country3=request.POST.get("country3")
+          startyear=int(request.POST.get("startyear"))
+          endyear=int(request.POST.get("endyear"))
+          df1=df[df['Entity']==country1]
+          df1=df1[(df1["Year"]>=startyear) & (df1["Year"]<=endyear)]
+          df2=df[df['Entity']==country2]
+          df2=df2[(df2["Year"]>=startyear) & (df2["Year"]<=endyear)]
+          df3=df[df['Entity']==country3]
+          df3=df3[(df3["Year"]>=startyear) & (df3["Year"]<=endyear)]
+         
+          
+          fig = go.Figure()
+          fig.add_traces(go.Bar(x=df1["Year"],y=df1["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],
+          name=country1,
+          marker=dict(color="#001f3f")
+                                   ))
+          fig.add_traces(go.Bar(x=df2["Year"],y=df2["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],name=country2,
+          marker=dict(color="#0041a4")
+                                    
+                                   ))
+          fig.add_traces(go.Bar(x=df3["Year"],y=df3["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"],name=country3,
+          marker=dict(color="#698b90")
+                                    
+                                   ))
+          fig.update_layout(xaxis_title="Year", yaxis_title="Potash used kg/ha", title=f"Potash fertilizer use per hectare of cropland by {country1}, {country2} and {country3}", xaxis_type="category",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          word_to_exclude = '(FAO)'
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
+          column=data["Entity"].drop_duplicates().tolist()
+          
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"potassium6.html",{"data":column,"year":column1})
+def potassium7(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=="POST":
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          year=int(request.POST.get("year"))
+          df1=df[df['Year']==year]
+          df1=df1.dropna()
+          df1=df1.sort_values(by="Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare",ascending=False)
+          n=int(request.POST.get("n"))
+          dfmax=df1.head(n)
+          
+          fig = go.Figure()
+          fig.add_trace(go.Pie(labels=dfmax["Entity"],values=dfmax["Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare"], textinfo='percent',hole=.3
+                               
+                                   ))
+          fig.update_layout(
+                   title=f"Potash fertilizer use per hectare of cropland by top {n} countries in {year}", plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          paper_bgcolor="lightsteelblue",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,)    
+          graph=fig.to_html
+          return render(request,"f1result.html",{"graph":graph})
+     
+     else:
+          data=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv")
+          column=data["Entity"].drop_duplicates().tolist()
+          column1=data["Year"].drop_duplicates().tolist()
+          return render(request,"potassium7.html",{"data":column,"year":column1})
+def potassium8(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     a=mark_safe('<iframe src="https://ourworldindata.org/explorers/fertilizers?time=2021&facet=none&pickerSort=asc&hideControls=true&Input=Synthetic+fertilizer&Nutrient=Potassium&Metric=Applied+%28per+hectare%29&Share+of+world+total=false&country=Eastern+Asia~OWID_WRL&tab=map" loading="lazy" style="width: 110%; height: 630px; border: 0px none; margin-left: -140px;overflow: hidden;" allow="web-share; clipboard-write"></iframe>')
+     
+     
+          
+     return render(request,"fertilizer_result_worldmap.html",{'map':a})
+
+
+def potassium_link(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     user=register.objects.get(email=request.session['email'])     
+     return render(request,'potassium_link.html',{'user':user})
 
 
 def rice_link(request):
@@ -1563,6 +2231,18 @@ def population8(request):
           
      return render(request,"fertilizer_result_worldmap.html",{'map':a})
 
+def fertilizers_use_analysis(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     user=register.objects.get(email=request.session['email'])
+     return render(request,"fertilizers_use_analysis .html",{'user':user})
+
+def fertilizers_use_prediction(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     user=register.objects.get(email=request.session['email'])
+     return render(request,"fertilizers_use_prediction.html",{'user':user})
+
 
 def crops_production_analysis(request):
      if not request.session.has_key('email'):
@@ -1877,6 +2557,193 @@ def handle_uploaded_file(f,name):
      for chunk in f.chunks():
           destination.write(chunk)
      destination.close()
+     
+def predict_phosphorous(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=='POST':
+          df=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv",parse_dates=['Year'])
+          df.dtypes
+          country=request.POST.get('country')
+          
+          print(country)
+          #country='India'
+          production=df[df['Entity']==country]
+          production=production.loc[:,['Year','Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare']]
+          production=production.sort_values('Year')
+          production.isnull().sum()
+          production=production.set_index('Year')
+          production.index
+          y=production
+          p = d = q = range(0, 2)
+          pdq = list(itertools.product(p, d, q))
+          seasonal_pdq = [(x[0], x[1], x[2], 12) for x in list(itertools.product(p, d, q))]
+          print('Examples of parameter combinations for Seasonal ARIMA...')
+          print('SARIMAX: {} x {}'.format(pdq[1], seasonal_pdq[1]))
+          print('SARIMAX: {} x {}'.format(pdq[1], seasonal_pdq[2]))
+          print('SARIMAX: {} x {}'.format(pdq[2], seasonal_pdq[3]))
+          print('SARIMAX: {} x {}'.format(pdq[2], seasonal_pdq[4]))
+
+          min=99999999
+          p1=[-1,-1,-1]
+          p2=[-1,-1,-1,-1]
+          for param in pdq:
+               for param_seasonal in seasonal_pdq:
+                    try:
+                         mod = sm.tsa.statespace.SARIMAX(y,
+                                                       order=param,
+                                                       seasonal_order=param_seasonal,
+                                                       enforce_stationarity=False,
+                                                       enforce_invertibility=False)
+                         results = mod.fit()
+                         if results.aic<min:
+                              min=results.aic
+                              p1=param
+                              p2=param_seasonal
+                         print('ARIMA{}x{}12 - AIC:{}'.format(param, param_seasonal, results.aic))
+                    except:
+                         continue
+          print(p1)
+          print(min)
+          print(p2)
+          # 12 is the interval for 12 months
+          mod = sm.tsa.statespace.SARIMAX(y,
+                                        order=(p1[0], p1[1], p1[2]),
+                                        seasonal_order=(p2[0], p2[1], p2[2], 12),
+                                        enforce_stationarity=False,
+                                        enforce_invertibility=False)
+          results = mod.fit()
+          print(results.summary().tables[1])
+          steps = int(request.POST.get('steps'))
+          
+          print("steps are",steps)
+          pred_uc = results.get_forecast(steps=steps)
+               # Create traces
+          fig = go.Figure()
+          fig.add_trace(go.Scatter(x=y.index, y=y['Nutrient phosphate P2O5 (total) | 00003103 || Use per area of cropland | 005159 || Kilograms per hectare'],
+                              mode='lines',
+                              name='Actual Value',fill='tozeroy'))
+          type(pred_uc.predicted_mean)
+          fig.add_trace(go.Scatter(x=pred_uc.predicted_mean.index, y=pred_uc.predicted_mean,
+                              mode='lines',
+                              name='Predicted Value',fill='tozeroy'))
+          #fig.show()
+          fig.update_layout(
+          title="Phosphate fertilizer use prediction per hectare of cropland by "+country,
+          xaxis_title="Year",
+          yaxis_title="Phosphorous Use (Kg/Ha)",
+          legend_title="Country",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+          graph=fig.to_html()
+          return render(request,'arima_result.html',{'graph':graph})
+
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          column=data["Entity"].drop_duplicates().tolist()
+          user=register.objects.get(email=request.session['email'])     
+
+          return render(request,'phosphorous_prediction.html',{"data":column,"user":user})
+
+def predict_potassium(request):
+     if not request.session.has_key('email'):
+          return redirect('/login')
+     if request.method=='POST':
+          df=pd.read_csv("potash-fertilizer-application-per-hectare-of-cropland.csv",parse_dates=['Year'])
+          df.dtypes
+          country=request.POST.get('country')
+          
+          print(country)
+          #country='India'
+          production=df[df['Entity']==country]
+          production=production.loc[:,['Year','Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare']]
+          production=production.sort_values('Year')
+          production.isnull().sum()
+          production=production.set_index('Year')
+          production.index
+          y=production
+          p = d = q = range(0, 2)
+          pdq = list(itertools.product(p, d, q))
+          seasonal_pdq = [(x[0], x[1], x[2], 12) for x in list(itertools.product(p, d, q))]
+          print('Examples of parameter combinations for Seasonal ARIMA...')
+          print('SARIMAX: {} x {}'.format(pdq[1], seasonal_pdq[1]))
+          print('SARIMAX: {} x {}'.format(pdq[1], seasonal_pdq[2]))
+          print('SARIMAX: {} x {}'.format(pdq[2], seasonal_pdq[3]))
+          print('SARIMAX: {} x {}'.format(pdq[2], seasonal_pdq[4]))
+
+          min=99999999
+          p1=[-1,-1,-1]
+          p2=[-1,-1,-1,-1]
+          for param in pdq:
+               for param_seasonal in seasonal_pdq:
+                    try:
+                         mod = sm.tsa.statespace.SARIMAX(y,
+                                                       order=param,
+                                                       seasonal_order=param_seasonal,
+                                                       enforce_stationarity=False,
+                                                       enforce_invertibility=False)
+                         results = mod.fit()
+                         if results.aic<min:
+                              min=results.aic
+                              p1=param
+                              p2=param_seasonal
+                         print('ARIMA{}x{}12 - AIC:{}'.format(param, param_seasonal, results.aic))
+                    except:
+                         continue
+          print(p1)
+          print(min)
+          print(p2)
+          # 12 is the interval for 12 months
+          mod = sm.tsa.statespace.SARIMAX(y,
+                                        order=(p1[0], p1[1], p1[2]),
+                                        seasonal_order=(p2[0], p2[1], p2[2], 12),
+                                        enforce_stationarity=False,
+                                        enforce_invertibility=False)
+          results = mod.fit()
+          print(results.summary().tables[1])
+          steps = int(request.POST.get('steps'))
+          
+          print("steps are",steps)
+          pred_uc = results.get_forecast(steps=steps)
+               # Create traces
+          fig = go.Figure()
+          fig.add_trace(go.Scatter(x=y.index, y=y['Nutrient potash K2O (total) | 00003104 || Use per area of cropland | 005159 || Kilograms per hectare'],
+                              mode='lines',
+                              name='Actual Value',fill='tozeroy'))
+          type(pred_uc.predicted_mean)
+          fig.add_trace(go.Scatter(x=pred_uc.predicted_mean.index, y=pred_uc.predicted_mean,
+                              mode='lines',
+                              name='Predicted Value',fill='tozeroy'))
+          #fig.show()
+          fig.update_layout(
+          title="Potassium fertilizer use prediction per hectare of cropland by "+country,
+          xaxis_title="Year",
+          yaxis_title="Potassium Use (Kg/Ha)",
+          legend_title="Country",plot_bgcolor= "lightsteelblue",
+          height=600,
+          width=1200,
+          #paper_bgcolor="#f8b28b",
+          title_font_size=25,
+          font=dict(family="Verdana",size=18,color="black"), title_x=0.5,
+          xaxis_title_font_size=25,yaxis_title_font_size=25, xaxis = dict(showgrid=True, showline=True,gridcolor="Lightgray", linecolor="black"),
+          yaxis=dict(showgrid=True, gridcolor="Lightgray", showline=True, linecolor="black"))
+          graph=fig.to_html()
+          return render(request,'arima_result.html',{'graph':graph})
+
+     
+     else:
+          data=pd.read_csv("phosphate-application-per-hectare-of-cropland.csv")
+          column=data["Entity"].drop_duplicates().tolist()
+          user=register.objects.get(email=request.session['email'])     
+
+          return render(request,'potassium_prediction.html',{"data":column,"user":user})
+
 
 def predict_crop_rice(request):
      if not request.session.has_key('email'):

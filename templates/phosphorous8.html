@@ -5,13 +5,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nitrogen Use Analysis</title>
+    <title>Fertilizer Use Analysis</title>
   </head>
   <body>
     <section class="container" style="padding-right: 30%">
-      <form method="POST" action class enctype="multipart/form-data">
+      <form method="POST" action="" class="" enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="mt-5 display-3">Nitrogen Use Analysis</h1>
+        <h1 class="mt-5 display-3">Fertilizer Use Analysis</h1>
         <br />
 
         <select name="year" class="form-select form-select-lg mb-4">
@@ -79,7 +79,8 @@
         </select>
         <button
           type="submit"
-          class="btn btn-outline-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-0">
+          class="btn btn-outline-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-0"
+        >
           Enter
         </button>
       </form>

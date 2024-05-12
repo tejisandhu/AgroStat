@@ -9,11 +9,17 @@
   </head>
   <body>
     <section class="container" style="padding-right: 15%">
-      <form method="POST" action="" class="" enctype="multipart/form-data">
+      <form method="POST" action class enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="mt-5 display-3">Fertilizer Use Analysis</h1>
+        <h1 class="mt-5 display-3">Nitrogen Use Analysis</h1>
         <br />
-        <p style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In this interactive analysis, delve into the nitrogen consumption trends of [Country] for the selected year. Gain a deeper understanding of how nitrogen fertilizers contribute to agricultural productivity, and explore the potential implications for sustainable farming practices and environmental stewardship.</p>
+        <p
+          style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">In
+          this interactive analysis, delve into the nitrogen consumption trends
+          of [Country] for the selected year. Gain a deeper understanding of how
+          nitrogen fertilizers contribute to agricultural productivity, and
+          explore the potential implications for sustainable farming practices
+          and environmental stewardship.</p>
 
         <select name="year" class="form-select form-select-lg mb-4">
           <option selected>Select a year</option>
@@ -80,8 +86,7 @@
         </select>
         <button
           type="submit"
-          class="btn btn-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-auto"
-        >
+          class="btn btn-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-auto">
           Enter
         </button>
       </form>

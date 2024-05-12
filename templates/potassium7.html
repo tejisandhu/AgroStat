@@ -5,17 +5,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nitrogen Use Analysis</title>
+    <title>Fertilizer Use Analysis</title>
   </head>
   <body>
-    <section class="container" style="padding-right: 30%">
+    <section class="container" style="padding-right: 15%">
       <form method="POST" action class enctype="multipart/form-data">
         {% csrf_token %}
-        <h1 class="mt-5 display-3">Nitrogen Use Analysis</h1>
+        <h1 class="mt-5 display-3">Potassium Use Analysis</h1>
         <br />
+        <p
+          style="padding-top: 20px;text-align: justify;font-weight: 500;padding-bottom: 40px;font-size: large;width: 100%;padding-right: 5%;">Unveil
+          the Potassium Kings! This tool reveals the top countries in Potassium
+          use (kg/ha) for a chosen year. Select your year and see the global
+          landscape in a flash - depicted in a donut chart!!</p>
 
         <select name="year" class="form-select form-select-lg mb-4">
-          <option selected>Select a year for the world map</option>
+          <option selected>Select a year for top countries</option>
 
           <option value="1961">1961</option>
           <option value="1962">1962</option>
@@ -77,9 +82,23 @@
           <option value="2018">2018</option>
           <option value="2019">2019</option>
         </select>
+        <select name="n" class="form-select form-select-lg mb-4">
+          <option selected>Select number of countries</option>
+
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
         <button
           type="submit"
-          class="btn btn-outline-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-0">
+          class="btn btn-warning text-dark-emphasis btn-lg d-grid col-6 mx-sm-auto">
           Enter
         </button>
       </form>

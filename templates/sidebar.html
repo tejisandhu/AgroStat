@@ -374,17 +374,17 @@
             >Fertilizer <span class="fas fa-caret-down"></span>
           </a>
           <ul
-            class="item-show-5 {% if request.path == '/fertilizer_link/' or request.path == '/fertilizer_detection' or request.path == '/f1' or request.path == '/f2' or request.path == '/f3' or request.path == '/f4' or request.path == '/f5' or request.path == '/f6' or request.path == '/f7' or request.path == '/f8' %} show {% endif %}"
+            class="item-show-5 {% if request.path == '/fertilizers_use_analysis/' or request.path == '/fertilizers_use_prediction/' or request.path == '/fertilizer_link/' or request.path == '/fertilizer_detection' or request.path == '/predict_phosphorous' or request.path == '/predict_potassium' or request.path == '/f1' or request.path == '/f2' or request.path == '/f3' or request.path == '/f4' or request.path == '/f5' or request.path == '/f6' or request.path == '/f7' or request.path == '/f8'  or request.path == '/phosphorous_link/' or request.path == '/phosphorous1' or request.path == '/phosphorous2' or request.path == '/phosphorous3' or request.path == '/phosphorous4' or request.path == '/phosphorous5' or request.path == '/phosphorous6' or request.path == '/phosphorous7' or request.path == '/phosphorous8' or request.path == '/potassium_link/' or request.path == '/potassium1' or request.path == '/potassium2' or request.path == '/potassium3' or request.path == '/potassium4' or request.path == '/potassium5' or request.path == '/potassium6' or request.path == '/potassium7' or request.path == '/potassium8' %} show {% endif %}"
           >
             <li
-              class="{% if request.path == '/fertilizer_link/' or request.path == '/f1' or request.path == '/f2' or request.path == '/f3' or request.path == '/f4' or request.path == '/f5' or request.path == '/f6' or request.path == '/f7' or request.path == '/f8' %} active {% endif %}"
+              class="{% if request.path == '/fertilizer_link/' or request.path == '/f1' or request.path == '/f2' or request.path == '/f3' or request.path == '/f4' or request.path == '/f5' or request.path == '/f6' or request.path == '/f7' or request.path == '/f8' or request.path == '/fertilizers_use_analysis/' or request.path == '/phosphorous_link/' or request.path == '/phosphorous1' or request.path == '/phosphorous2' or request.path == '/phosphorous3' or request.path == '/phosphorous4' or request.path == '/phosphorous5' or request.path == '/phosphorous6' or request.path == '/phosphorous7' or request.path == '/phosphorous8' or request.path == '/potassium_link/' or request.path == '/potassium1' or request.path == '/potassium2' or request.path == '/potassium3' or request.path == '/potassium4' or request.path == '/potassium5' or request.path == '/potassium6' or request.path == '/potassium7' or request.path == '/potassium8' %} active {% endif %}"
             >
-              <a href="{% url 'fertilizer_link' %}">Fertilizer Analysis</a>
+              <a href="{% url 'fertilizers_use_analysis' %}">Fertilizer Analysis</a>
             </li>
             <li
-              class="{% if request.path == '/fertilizer_detection' %} active {% endif %}"
+              class="{% if request.path == '/fertilizers_use_prediction/' or request.path == '/fertilizer_detection' or request.path == '/predict_phosphorous' or request.path == '/predict_potassium' %} active {% endif %}"
             >
-              <a href="{% url 'fertilizer_detection' %}"
+              <a href="{% url 'fertilizers_use_prediction' %}"
                 >Fertilizer Prediction</a
               >
             </li>
