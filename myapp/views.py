@@ -1647,14 +1647,9 @@ def contactus(request):
           return render (request,'contactus.html')
 
 def index(request):
-     if request.method == "POST":
-          e=request.POST.get("email")
-          x=newsletter()
-          x.email=e
-          x.save()
-          return render(request,'login.html')
+     x=Agriculture_Universities.objects.all()
       
-     return render (request,'index.html')
+     return render (request,'index.html',{'data':x})
 
 def login(request):
      if request.method=="POST" :

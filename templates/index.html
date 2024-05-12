@@ -55,7 +55,7 @@
             <img
               src="https://ninetheme.com/themes/agro/wp-content/uploads/2019/02/img_1.jpg"
               class="d-block w-100"
-              style="height: 110vh; filter: brightness(70%)"
+              style="height: 115vh; filter: brightness(70%)"
               alt="..."
             />
             <div class="carousel-caption d-none d-lg-block">
@@ -81,7 +81,7 @@
             <img
               src="https://ninetheme.com/themes/agro/wp-content/uploads/2019/02/img_2.jpg"
               class="d-block w-100"
-              style="height: 110vh; filter: brightness(70%)"
+              style="height: 115vh; filter: brightness(70%)"
               alt="..."
             />
             <div class="carousel-caption d-none d-lg-block">
@@ -107,7 +107,7 @@
             <img
               src="https://ninetheme.com/themes/agro/wp-content/uploads/2019/02/img_3.jpg"
               class="d-block w-100"
-              style="height: 110vh; filter: brightness(70%)"
+              style="height: 115vh; filter: brightness(70%)"
               alt="..."
             />
             <div class="carousel-caption d-none d-lg-block">
@@ -175,6 +175,69 @@
             </p>
           </div>
         </div>
+        <section class="" name="Agriculture Universities">
+          <div
+            class="text-center w-100 row"
+            style="margin-top: 100px; margin-bottom: 50px"
+          >
+            <h1 class="mb-5 c1"><strong>Agriculture</strong> <small>Universities</small></h1>
+    
+            <div class="col-md-8 mx-auto mb-3">
+              <p>Empowering informed decisions: Agriculture universities play a crucial role in developing the next generation of agricultural leaders. By leveraging cutting-edge research and education, these institutions cultivate a pipeline of talent equipped to tackle the challenges facing our food systems. This foundation, combined with the power of data analysis and prediction offered by our intelligence dashboard, empowers a future where agriculture is more sustainable, productive, and resilient.</p>
+              <div class="row">
+                {% for i in data %}
+                {% if forloop.counter <= 3 %}
+                <div class="col-4 p-5" data-aos="flip-left">
+                  <div class="card border shadow" style="width: 18rem">
+                    <img
+                      src="{{i.image.url}}"
+                      class="card-img-top img-fluid"
+                      alt="{{i.name}}"
+                      style="
+                        width: 80%;
+                        aspect-ratio: 1/1;
+                        object-fit: contain;
+                        display: block;
+                        margin-left: auto;
+                        margin-right: auto;
+                      "
+                    />
+                    <div class="card-body">
+                      <a href="{{i.website}}" target="_blank" class="a1"
+                        ><h5 class="card-title c1">{{i.name}}</h5></a
+                      >
+            
+                      <p class="card-text">{{i.address|truncatechars:50}}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                
+              </div>
+              <div style="text-align: end;">
+                <a
+                  href="{% url 'Agri_uni' %}"
+                  class="btn btn-warning text-dark-emphasis btn-lg"
+                >
+                View all Universities
+              </a>
+              </div>  
+            </div>
+          </div></section>
+          <section class="" name="Agriculture Videos">
+            <div
+              class="text-center w-100 row"
+              style="margin-top: 100px; margin-bottom: 50px"
+            >
+              <h1 class="mb-5 c1"><strong>Agriculture</strong> <small>Videos</small></h1>
+      
+              <div class="col-md-8 mx-auto mb-3">
+                <video width="100%" height="100%" autoplay muted playsinline>
+                 <source src="{% static 'images\video.mp4' %}"></video>
+              </div>
+            </div></section>
+          <section class="" name="About us">
         <div class="row text-center mb-5 w-100">
           <h3 class="mb-5 c1 "><strong>Our</strong> <small>Values</small></h3>
   
@@ -259,7 +322,8 @@
           <div class="col-4 p-0 mt-0 mb-5">
             <i
               ><img
-                src="static\images\Comprehensive Content Library.png"
+                src="
+                static\images\Comprehensive Content Library.png"
                 alt="1.jpg"
                 style="height: 70px; width: 70px"
             /></i>
