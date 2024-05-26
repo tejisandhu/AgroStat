@@ -35,6 +35,8 @@ from .models import ChatMessage
 from django.http import JsonResponse
 import json
 import plotly.express as px
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.models import load_model
 
 
 
@@ -344,7 +346,7 @@ def f7(request):
                                
                                    ))
           fig.update_layout(
-                   title=f"Nutrient Nitrogen(N) Used Kilogram per Hectare of top {n} countries in {year}", plot_bgcolor= "lightsteelblue",
+                   title=f"Nutrient Nitrogen(N) Used Kilogram per Hectare by top {n} countries in {year}", plot_bgcolor= "lightsteelblue",
           height=600,
           width=1200,
           paper_bgcolor="lightsteelblue",
@@ -1158,7 +1160,7 @@ def rice3(request):
           
           fig=px.scatter(df1,y="Production",x="Year",size="Production",size_max=40,color="Production"
           )
-          fig.update_layout(xaxis_title="Year", yaxis_title="Production (in Tonnes)", title=f"Rice Production (in Tonnes) from {startyear} to {endyear}", xaxis_type="category",plot_bgcolor= "white",
+          fig.update_layout(xaxis_title="Year", yaxis_title="Production (in Tonnes)", title=f"Rice Production (in Tonnes) of {country} from {startyear} to {endyear}", xaxis_type="category",plot_bgcolor= "white",
           height=600,
           width=1200,
           paper_bgcolor="lightsteelblue",title_font_size=25,
@@ -1903,7 +1905,7 @@ def wheat6(request):
      else:
           data=pd.read_csv("wheat-production.csv")
           word_to_exclude = '(FAO)'
-          df1 = df1[~df1['Entity'].str.contains(word_to_exclude)]
+          data = data[~data['Entity'].str.contains(word_to_exclude)]
           column=data["Entity"].drop_duplicates().tolist()
           column1=data["Year"].drop_duplicates().tolist()
           return render(request,"wheat6.html",{"data":column,"year":column1})
@@ -2280,7 +2282,9 @@ The AGROSTAT Team
                send_mail(subject,message,email_from,recipient_list)
                  
                return JsonResponse({"message":"You are already a subscriber"})
-          
+          elif e=="":
+               return JsonResponse({"message":"Enter a valid Mail id"})
+               
           else:
           
                x=newsletter()
@@ -2328,8 +2332,15 @@ def contactus(request):
 
 def index(request):
      x=Agriculture_Universities.objects.all()
+     import datetime
+     from datetime import date
+     from newsapi import NewsApiClient
+     newsapi = NewsApiClient(api_key='b5bebd12136d4ecf8878f2060de6d277')
+
+     json_data = newsapi.get_everything(q='Agriculture',language= 'en',from_param=str(date. today() - datetime. timedelta(days=29)),to=str (date.today()),page_size=21,page = 1,sort_by='relevancy')
+     k=json_data['articles']
       
-     return render (request,'index.html',{'data':x})
+     return render (request,'index.html',{'data':x,'k':k})
 
 def login(request):
      if request.method=="POST" :
@@ -2344,13 +2355,6 @@ def login(request):
                return redirect('/dashboard')
           else:
                return render(request,'login.html',{'msg':1})
-     
-     elif request.method == "POST":
-          e=request.POST.get("newsletteremail")
-          x=newsletter()
-          x.email=e
-          x.save()
-          return render(request,'login.html')
           
      else:
           return render (request,'login.html')
@@ -2384,7 +2388,7 @@ def registration(request):
                     otp=random.randrange(1000,9999)
                     print(otp)
 
-                    #mixed
+                    
                     j6="0123456789"
                     j7=random.sample(j6,6)
                     print(j7)
@@ -2392,25 +2396,17 @@ def registration(request):
                     j8=""
                     for i in j7:
                          j8=j8+i
-                    
-                    # request.session['otp'] = j8
-                         
+                       
                     subject="OTP"
                     message="Hi your OTP is '"+ j8 +"'"
                     email_from=settings.EMAIL_HOST_USER
                     recipient_list=[e]  
                     send_mail(subject,message,email_from,recipient_list)
-                         
-                    # x=register()
-                    # x.name=n
-                    # x.email=e
-                    # x.password=p
-                 #  x.save()
-                    
+                  
                     return render (request,'register_otp.html',{'msg' : 2,'name':n,'email':e,'password':p,'otp':j8})
                else:
                 
-                    return render (request,'registration.html',{'msg' : "3"})
+                    return render (request,'registration.html',{'msg' : "3",'m1':'Password and Confirm Password does not match'})
      else:
           return render (request,'registration.html')
           
@@ -2432,9 +2428,9 @@ def register_otp(request):
                x.password=p
                x.save()
                
-               return redirect('/login',{ 'msg' : 3 })
+               return redirect('/login',{ 'msg' : 3,'m1':'User Registered' })
           else:
-               return render(request,'register_otp.html',{ 'msg' : 4,'name':n,'email':e,'password':p,'otp':j8})
+               return render(request,'register_otp.html',{ 'msg' : 4,'name':n,'email':e,'password':p,'otp':otp})
      else:
           return render(request,'register_otp.html')
                
@@ -2816,9 +2812,9 @@ def predict_crop_rice(request):
                               name='Predicted Value',fill='tozeroy'))
           #fig.show()
           fig.update_layout(
-          title="Rice Production of "+country,
+          title="Rice Production (in Tonnes) prediction of "+country,
           xaxis_title="Year",
-          yaxis_title="Production",
+          yaxis_title="Production (in Tonnes)",
           legend_title="Country",plot_bgcolor= "lightsteelblue",
           height=600,
           width=1200,
@@ -3111,7 +3107,7 @@ def predict_population(request):
           fig.update_layout(
           title=f"Agriculturalist trend prediction of {country}",
           xaxis_title="Year",
-          yaxis_title="Population",
+          yaxis_title="Labor force employed (%)",
           legend_title="Legend",
           plot_bgcolor= "white",
           height=600,
@@ -3326,8 +3322,7 @@ def fertilizer_detection(request):
 def disease_detection(request):
      if not request.session.has_key('email'):
           return redirect('/login')
-     from tensorflow.keras.preprocessing import image
-     from tensorflow.keras.models import load_model
+     
      if request.method=='POST':
     
 

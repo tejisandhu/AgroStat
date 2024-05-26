@@ -225,6 +225,10 @@
               </div>  
             </div>
           </div></section>
+
+
+
+
           <section class="" name="Agriculture Videos">
             <div
               class="text-center w-100 row"
@@ -238,7 +242,7 @@
               </div>
             </div></section>
           <section class="" name="About us">
-        <div class="row text-center mb-5 w-100">
+        <!-- <div class="row text-center mb-5 w-100">
           <h3 class="mb-5 c1 "><strong>Our</strong> <small>Values</small></h3>
   
           <div class="col-4 p-0 mt-0 mb-5">
@@ -295,8 +299,73 @@
             /></i>
             <h1 class="fs-4 pt-3 c1">Data-Driven Decisions</h1>
           </div>
-        </div>
-  
+        </div> -->
+        <section class="" name="Agriculture News">
+          <div
+            class="text-center w-100 row"
+            style="margin-top: 100px; margin-bottom: 50px"
+          >
+            <h1 class="mb-5 c1"><strong>Agriculture</strong> <small>News</small></h1>
+    
+            <div class="col-md-8 mx-auto mb-3">
+              <p>The agricultural sector is constantly evolving, facing new challenges and embracing innovative solutions. Here at AgroStat, we understand the importance of staying informed.Dive deeper into the news below to discover groundbreaking research, market fluctuations, policy changes, and advancements in sustainable practices. We believe that knowledge is power, and by staying informed, you can make informed decisions, optimize your agricultural endeavors, and contribute to a thriving future for food production.
+
+                pen_spark
+                </p>
+              <div class="row">
+                {% for i in k %} {% if forloop.counter <= 3 %} 
+                <br />
+                {% if i.urlToImage %}
+        
+                <div class="col-4 p-5">
+                  <div
+                    class="card text-center border shadow"
+                    style="width: 18rem"
+                    data-aos="flip-up"
+                  >
+                    <img
+                      src="{{i.urlToImage}}"
+                      class="card-img-top"
+                      alt="{{i.title}}"
+                      style="width: auto; height: 200px"
+                    />
+                    <div class="card-body">
+                      <h4
+                        style="
+                          font-size: 1rem;
+                          color: #666;
+                          margin-top: 0rem;
+                          font-weight: bold;
+                          text-align: left;
+                        "
+                      >
+                        NEWS
+                      </h4>
+                      <a href="{{i.url}}" class="a1">
+                        <h5 class="card-title c1" style="text-align: left">
+                          {{i.title}}
+                        </h5>
+                      </a>
+                      <!-- <h6 class="card-subtitle" style="text-align: left">
+                   By {{i.reporter}}
+                 </h6> -->
+                    </div>
+                  </div>
+                </div>
+                {% endif %} {% endif %} {% endfor %}
+              </div>
+                
+              </div>
+              <div style="text-align: end;">
+                <a
+                  href="{% url 'live' %}"
+                  class="btn btn-warning text-dark-emphasis btn-lg"
+                >
+                View more news
+              </a>
+              </div>  
+            </div>
+          </div></section>
          <div
           class="text-center w-100 row"
           style="margin-top: 50px; margin-bottom: 100px"
@@ -313,8 +382,22 @@
             </p>
           </div>
         </div> 
+
+        <div
+          class="text-center w-100 row"
+          style="margin-top: 50px; margin-bottom: 100px"
+        >
+          <div class="col-md-8 mx-auto mb-3">
+            <h3 class="mb-5 c1">
+              <strong>Why </strong> <small>AgroStat?</small>
+            </h3>
+            <p style="color: black">
+              AgroStat is our project to show and empower those farmers who don't have access to good decision making choices due to lack of data driven insigts to make an informed decisions about their farms and their crops. In AgroStat there is also a feature included in to check a disease of a crop by just uploading the image of a leaf which could be very important in treating it accordingly without any misdiagnosing.
+            </p>
+          </div>
+        </div> 
   
-         <div class="row text-center w-100">
+         <!-- <div class="row text-center w-100">
           <h1 class="mb-5 c1">
             <strong>Why Choose</strong> <small>AgroStat?</small>
           </h1>
@@ -374,7 +457,7 @@
             /></i>
             <h1 class="fs-4 pt-3 c1">Engaging Community</h1>
           </div>
-        </div> 
+        </div>  -->
       </section>
 
     <!-- <section class="" name="About us">
