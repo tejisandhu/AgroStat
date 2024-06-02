@@ -2906,9 +2906,9 @@ def predict_crop_maize(request):
                               name='Predicted Value'))
           #fig.show()
           fig.update_layout(
-          title="Maize Production of "+country,
+          title="Maize Production (in Tonnes) Prediction of "+country,
           xaxis_title="Year",
-          yaxis_title="Production",
+          yaxis_title="Production(in Tonnes)",
           legend_title="Country",
           plot_bgcolor= "lightsteelblue",
           height=600,
